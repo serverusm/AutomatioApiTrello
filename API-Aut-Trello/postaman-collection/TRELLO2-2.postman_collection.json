@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "628123f8-30ef-4e93-99e7-866c79725464",
+		"name": "TRELLO2-2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33344931"
+	},
+	"item": [
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "Create-Board",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/?name=API Automation &key=&token=",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "API Automation "
+								},
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update-board",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/67008eac19be0aa5ba770113?key=&token=&name=API lisening",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								"67008eac19be0aa5ba770113"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "name",
+									"value": "API lisening"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete-board",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/67008eac19be0aa5ba770113?key=&token=",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								"67008eac19be0aa5ba770113"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-board",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/67008ef46d3a859fa9a0259e?key=&token=",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								"67008ef46d3a859fa9a0259e"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Card",
+			"item": [
+				{
+					"name": "Create-card",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList=670091cffd225fe4c17f7114&key=&token=&name=EndPoint",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "670091cffd225fe4c17f7114"
+								},
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "name",
+									"value": "EndPoint"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get-Card",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://api.trello.com/1/cards/670093242851e085b75fc539?key=&token=",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards",
+								"670093242851e085b75fc539"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lists",
+			"item": [
+				{
+					"name": "Create-List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists?name={name}&idBoard=67008ef46d3a859fa9a0259e&key=&token=&name=REST API",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{name}"
+								},
+								{
+									"key": "idBoard",
+									"value": "67008ef46d3a859fa9a0259e"
+								},
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "name",
+									"value": "REST API"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update-list",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists/670091cffd225fe4c17f7114?key=&token=&name=REST API",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists",
+								"670091cffd225fe4c17f7114"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": ""
+								},
+								{
+									"key": "token",
+									"value": ""
+								},
+								{
+									"key": "name",
+									"value": "REST API"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
