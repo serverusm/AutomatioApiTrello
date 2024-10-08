@@ -74,5 +74,34 @@ public class BoardTest {
         //Assert
         Assert.assertEquals(response.statusCode(),200);
     }
+    
+    @Test
+    public void UpdateBoard(){
+        //AAA
+        //Arrange
+        String apiKey = "";
+        String apiToken = "";
+        String boarName = "Sergio Update-Board IJ";
+
+        var headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/son");
+
+        var queryParams = new HashMap<String, String>();
+        queryParams.put("key", apiKey);
+        queryParams.put("token", apiToken);
+        queryParams.put("name", boarName);
+
+        //Act
+        var response = RestAssured.given()
+                .spec(requestSpec)
+                .log().all().when()
+                .headers(headers)
+                .queryParams(queryParams)
+                .put("/boards/{idBoard}");
+
+        System.out.println(response.getBody().asPrettyString());
+        //Assert
+        Assert.assertEquals(response.statusCode(),200);
+    }
 
 }
