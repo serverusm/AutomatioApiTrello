@@ -3,7 +3,6 @@ package com.trello.utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public final class PropertiesInfo {
      *
      * @return Properties Info instance.
      */
-    private static PropertiesInfo getInstance() {
+    public static PropertiesInfo getInstance() {
         if (instance == null) {
             instance = new PropertiesInfo();
         }
@@ -83,6 +82,15 @@ public final class PropertiesInfo {
      * This method get base api.
      *
      * @return base api.
+     */
+    public String getBaseApi(){
+        return getProperty(BASE_API);
+    }
+
+    /**
+     * This metho gets the api key
+     *
+     * @return api key
      */
     public String getApiKey() {
         return getProperty("apiKey");

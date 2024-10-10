@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.example'
+group = 'com.trello'
 version = '1.0'
 
 repositories {
@@ -10,10 +10,8 @@ repositories {
 }
 
 dependencies {
-
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.23.1'
-
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
 }
 
 test {

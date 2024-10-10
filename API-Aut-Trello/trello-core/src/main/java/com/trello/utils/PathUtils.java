@@ -22,8 +22,9 @@ public final class PathUtils {
      */
 
     private PathUtils() {
-//Default constructor.
+        //Default constructor.
     }
+
     /**
      * Builds absolute path of the working directory
      *
