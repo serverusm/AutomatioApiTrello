@@ -1,5 +1,6 @@
 package com.trello;
 
+import com.trello.utils.PropertiesInfo;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -22,9 +23,11 @@ public class BoardTest {
     private String boardID;
     @BeforeClass
     public void setUp() {
-        apiKey = "";
-        apiToken = "";
-        requestSpec = new RequestSpecBuilder().setBaseUri("https://api.trello.com/1").build();
+        apiKey = PropertiesInfo.getInstance().getApiKey();
+        apiToken = PropertiesInfo.getInstance().getApiToken();
+        requestSpec = new RequestSpecBuilder()
+                .setBaseUri(String.format("%s/%s", PropertiesInfo.getInstance().getBaseApi(),
+                        PropertiesInfo.getInstance().getApiVersion())).build();
         responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
                 .expectContentType(ContentType.JSON)
                 .build();
