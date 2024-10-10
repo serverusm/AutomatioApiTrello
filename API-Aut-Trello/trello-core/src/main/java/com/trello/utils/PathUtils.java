@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
  * Defines utility functions to get absolute path from modules.
  */
 public final class PathUtils {
-    private static final String CURRENT_DIRECTORY = ",";
+    private static final String CURRENT_DIRECTORY = ".";
     private static final String PATH_REGEX = ".+[/\\\\]trello-[\\w]{1,7}[/\\\\]\\.$";
     private static final String REPLACE_REGEX = "trello-[\\w]{1,7}[/\\\\]\\.$";
     private static final String PATH_WINDOWS_REGEX = "^A[A-Z]:\\\\.*";

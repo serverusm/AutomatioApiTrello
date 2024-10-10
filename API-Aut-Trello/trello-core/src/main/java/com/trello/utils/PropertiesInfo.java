@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-public final class PropertiesInfo {
+public class PropertiesInfo {
     private static final Logger LOGGER = LogManager.getLogger(PropertiesInfo.class.getSimpleName());
     private static final String CONFIG_PROPERTIES = PathUtils.buildPath("gradle.properties");
     private static final String BASE_API = "apiUrl";
