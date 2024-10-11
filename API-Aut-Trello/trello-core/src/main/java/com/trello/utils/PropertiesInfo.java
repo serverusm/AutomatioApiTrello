@@ -47,7 +47,7 @@ public class PropertiesInfo {
             LOGGER.info("Particular properties to use: ".concat(particularFile));
             FileInputStream particularProperties = readProperties(particularFile);
             properties.load(particularProperties);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new ClassCastException("A problem of type \n" + e.getMessage());
         }
     }
@@ -57,10 +57,10 @@ public class PropertiesInfo {
      *
      * @param file path to read properties File
      */
-    private FileInputStream readProperties(final String file){
+    private FileInputStream readProperties(final String file) {
         try {
             return new FileInputStream(file);
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("The properties file couldn't be found \n" + e.getMessage());
         }
     }
@@ -78,12 +78,13 @@ public class PropertiesInfo {
         }
         return propertyValue;
     }
+
     /**
      * This method get base api.
      *
      * @return base api.
      */
-    public String getBaseApi(){
+    public String getBaseApi() {
         return getProperty(BASE_API);
     }
 
@@ -95,6 +96,7 @@ public class PropertiesInfo {
     public String getApiKey() {
         return getProperty("apiKey");
     }
+
     /**
      * This method gets the api token.
      *
@@ -103,14 +105,16 @@ public class PropertiesInfo {
     public String getApiToken() {
         return getProperty("apiToken");
     }
+
     /**
      * This method gets the api version.
      *
      * @return api version
      */
-    public String getApiVersion(){
+    public String getApiVersion() {
         return getProperty("version");
     }
+
     /**
      * This method gets environment.
      *
@@ -119,11 +123,12 @@ public class PropertiesInfo {
     public String getEnv() {
         return getProperty("env");
     }
+
     /**
      * Method to set a property in properties info.
      *
-     * @param property  key.
-     * @param value      to set
+     * @param property key.
+     * @param value    to set
      */
     public void setProperty(final String property, final String value) {
         this.properties.setProperty(property, value);

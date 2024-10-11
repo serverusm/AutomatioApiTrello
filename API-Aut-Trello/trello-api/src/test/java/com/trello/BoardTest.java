@@ -1,5 +1,6 @@
 package com.trello;
 
+import com.trello.utils.JsonPath;
 import com.trello.utils.PropertiesInfo;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -10,6 +11,7 @@ import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,13 +23,14 @@ public class BoardTest {
     private Map<String, String> headers;
     private Map<String, String> queryParams;
     private String boardID;
+    private RequestHandler request;
+
     @BeforeClass
     public void setUp() {
+        request = new RequestHandler();
         apiKey = PropertiesInfo.getInstance().getApiKey();
         apiToken = PropertiesInfo.getInstance().getApiToken();
-        requestSpec = new RequestSpecBuilder()
-                .setBaseUri(String.format("%s/%s", PropertiesInfo.getInstance().getBaseApi(),
-                        PropertiesInfo.getInstance().getApiVersion())).build();
+
         responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
                 .expectContentType(ContentType.JSON)
                 .build();
@@ -38,19 +41,28 @@ public class BoardTest {
         queryParams = new HashMap<String, String>();
         queryParams.put("key", apiKey);
         queryParams.put("token", apiToken);
+
+        request.setBaseUrl(String.format("%s/%s", PropertiesInfo.getInstance().getBaseApi(),
+                PropertiesInfo.getInstance().getApiVersion()));
+        request.setHeaders(headers);
+        request.setQueryParam(queryParams);
+
+        requestSpec = new RequestSpecBuilder()
+                .setBaseUri(request.getBaseUrl()).build();
     }
 
     @Test(priority = 1)
     public void testCreateBoardReqSpec() {
         //Arrange
         String boarName = "API Refacty with ID";
-        queryParams.put("name", boarName);
+//        queryParams.put("name", boarName);
+        request.setQueryParam("name", boarName);
         //Act
         var response = RestAssured.given()
                 .spec(requestSpec)
                 .log().all().when()
-                .headers(headers)
-                .queryParams(queryParams)
+                .headers(request.getHeaders())
+                .queryParams(request.getQueryParams())
                 .post("/boards/");
 
         System.out.println(response.getBody().asPrettyString());
@@ -59,6 +71,10 @@ public class BoardTest {
 
         boardID = response.getBody().path("id");
         System.out.println(String.format("boardID: %s", boardID));
+
+        String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
+        System.out.println(String.format("New board name: %s", name));
+        Assert.assertEquals(name, boarName);
     }
 
     @Test(priority = 3)
@@ -93,7 +109,9 @@ public class BoardTest {
                 .get(String.format("/boards/%s", boardID)).then()
                 .spec(responseSpec).extract().response();
 
-        String name = response.path("name");
+//        String name = response.path("name");
+        String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
+
         Assert.assertEquals(name, "API Refacty with ID");
     }
 
