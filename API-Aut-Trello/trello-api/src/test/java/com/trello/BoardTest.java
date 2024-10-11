@@ -6,12 +6,14 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +56,9 @@ public class BoardTest {
     @Test(priority = 1)
     public void testCreateBoardReqSpec() {
         //Arrange
+        InputStream createBoardJsonSchema = getClass().getClassLoader()
+                .getResourceAsStream("schemas/createBoardSchema.json");
+
         String boarName = "API Refacty with ID";
 //        queryParams.put("name", boarName);
         request.setQueryParam("name", boarName);
@@ -63,7 +68,12 @@ public class BoardTest {
                 .log().all().when()
                 .headers(request.getHeaders())
                 .queryParams(request.getQueryParams())
-                .post("/boards/");
+                .post("/boards/")
+                .then()
+                .and()
+                .assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(createBoardJsonSchema))
+                .extract().response();
 
         System.out.println(response.getBody().asPrettyString());
         //Assert
