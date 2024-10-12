@@ -1,5 +1,6 @@
 package com.trello;
 
+import com.trello.client.RequestManager;
 import com.trello.utils.JsonPath;
 import com.trello.utils.PropertiesInfo;
 import io.restassured.RestAssured;
@@ -18,18 +19,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoardTest {
-    private RequestSpecification requestSpec;
+    //    private RequestSpecification requestSpec;
     private ResponseSpecification responseSpec;
     private String apiKey;
     private String apiToken;
     private Map<String, String> headers;
     private Map<String, String> queryParams;
     private String boardID;
-    private RequestHandler request;
+    private ApiRequestHandler request;
 
     @BeforeClass
     public void setUp() {
-        request = new RequestHandler();
+        request = new ApiRequestHandler();
         apiKey = PropertiesInfo.getInstance().getApiKey();
         apiToken = PropertiesInfo.getInstance().getApiToken();
 
@@ -44,13 +45,8 @@ public class BoardTest {
         queryParams.put("key", apiKey);
         queryParams.put("token", apiToken);
 
-        request.setBaseUrl(String.format("%s/%s", PropertiesInfo.getInstance().getBaseApi(),
-                PropertiesInfo.getInstance().getApiVersion()));
         request.setHeaders(headers);
         request.setQueryParam(queryParams);
-
-        requestSpec = new RequestSpecBuilder()
-                .setBaseUri(request.getBaseUrl()).build();
     }
 
     @Test(priority = 1)
@@ -60,15 +56,13 @@ public class BoardTest {
                 .getResourceAsStream("schemas/createBoardSchema.json");
 
         String boarName = "API Refacty with ID";
-//        queryParams.put("name", boarName);
+
         request.setQueryParam("name", boarName);
+        request.setEndpoint("/boards/");
         //Act
-        var response = RestAssured.given()
-                .spec(requestSpec)
-                .log().all().when()
-                .headers(request.getHeaders())
-                .queryParams(request.getQueryParams())
-                .post("/boards/")
+//
+        var response = RequestManager.post(request);
+        response
                 .then()
                 .and()
                 .assertThat()
@@ -96,15 +90,11 @@ public class BoardTest {
 
         String boarName = "API refactory Update";
 
-        queryParams.put("name", boarName);
-
+        request.setQueryParam("name", boarName);
+        request.setEndpoint(String.format("/boards/%s", boardID));
         //Act
-        var response = RestAssured.given()
-                .spec(requestSpec)
-                .log().all().when()
-                .headers(headers)
-                .queryParams(queryParams)
-                .put(String.format("/boards/%s", boardID))
+        var response = RequestManager.put(request);
+        response
                 .then()
                 .spec(responseSpec)
                 .and()
@@ -115,19 +105,19 @@ public class BoardTest {
         System.out.println(response.getBody().asPrettyString());
         //Assert
         Assert.assertEquals(response.statusCode(), 200);
+        String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
+        Assert.assertEquals(name, "API refactory Update");
     }
 
     @Test(priority = 3)
     public void getBoardTest() {
         InputStream getBoardJsonSchema = getClass().getClassLoader()
                 .getResourceAsStream("schemas/getBoardSchema.json");
-
-        var response = RestAssured.given()
-                .spec(requestSpec)
-                .log().all().when()
-                .headers(headers)
-                .queryParams(queryParams)
-                .get(String.format("/boards/%s", boardID)).then()
+        queryParams.remove("name");
+        request.setEndpoint(String.format("/boards/%s", boardID));
+        var response = RequestManager.get(request);
+        response
+                .then()
                 .spec(responseSpec)
                 .and()
                 .assertThat()
@@ -136,7 +126,6 @@ public class BoardTest {
         System.out.println(response.getBody().asPrettyString());
 
         String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
-
         Assert.assertEquals(name, "API refactory Update");
     }
 
@@ -144,13 +133,8 @@ public class BoardTest {
     public void deleteBoardTest() {
         InputStream deleteBoardJsonSchema = getClass().getClassLoader()
                 .getResourceAsStream("schemas/deleteBoardSchema.json");
-
-        var response = RestAssured.given()
-                .spec(requestSpec)
-                .log().all().when()
-                .headers(headers)
-                .queryParams(queryParams)
-                .delete(String.format("/boards/%s", boardID))
+        request.setEndpoint(String.format("/boards/%s", boardID));
+        var response = RequestManager.delete(request)
                 .then()
                 .spec(responseSpec).and()
                 .assertThat()
