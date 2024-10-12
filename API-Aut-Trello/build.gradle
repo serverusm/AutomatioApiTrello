@@ -16,6 +16,10 @@ allprojects {
     dependencies {
         // https://mvnrepository.com/artifact/org.testng/testng
         testImplementation group: 'org.testng', name: 'testng', version: '7.10.2'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
+        implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.19.0'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
+        implementation group: 'io.cucumber', name: 'cucumber-testng', version: '7.19.0'
 
     }
 }

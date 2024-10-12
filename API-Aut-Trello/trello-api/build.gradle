@@ -14,3 +14,34 @@ dependencies {
 test {
     useTestNG();
 }
+// Option 1 After
+tasks.register("executeApiFeature", Test) {
+    systemProperties(System.getProperties())
+    outputs.upToDateWhen { false }
+    useTestNG()
+    scanForTestClasses = false
+    options {
+        useDefaultListeners = false
+        jvmArgs = ["-Dcucumber.features=${rootProject.rootDir}/trello-api/src/test/resources/features/"]
+        //trello-api\src\test\resources\features
+        jvmArgs = ["-Dcucumber.plugin=pretty,"]
+//        jvmArgs = ["-Dcucumber.filter.tags=" + System.getProperty("cucumberTags")]
+        jvmArgs = ["-Denv=" + env]
+        testLogging.showStandardStreams = true
+    }
+}
+// Option 2 Before Module for movile, UI
+task apiFeature(type: Test) {
+    useTestNG()
+    options {
+        jvmArgs = ['-Dcucumber.execution.strict=' + true]
+//        jvmArgs = ['-Dcucumber.plugin=io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm']
+//        jvmArgs = ["-Dcucumber.filter.tags=" + tags]
+        jvmArgs = ["-Denv=" + env]
+    }
+    //Flag to show console output
+    testLogging.showStandardStreams = true
+    //Flag to scan for classes with @Test annotation.
+    scanForTestClasses = false
+    // finalizedBy 'allureReport'
+}

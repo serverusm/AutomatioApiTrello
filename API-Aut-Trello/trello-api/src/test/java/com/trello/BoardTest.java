@@ -111,11 +111,13 @@ public class BoardTest {
 
     @Test(priority = 3)
     public void getBoardTest() {
+        //Given
         InputStream getBoardJsonSchema = getClass().getClassLoader()
                 .getResourceAsStream("schemas/getBoardSchema.json");
         queryParams.remove("name");
         request.setEndpoint(String.format("/boards/%s", boardID));
         var response = RequestManager.get(request);
+        //When
         response
                 .then()
                 .spec(responseSpec)
@@ -124,7 +126,7 @@ public class BoardTest {
                 .body(JsonSchemaValidator.matchesJsonSchema(getBoardJsonSchema))
                 .extract().response();
         System.out.println(response.getBody().asPrettyString());
-
+        //Then
         String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
         Assert.assertEquals(name, "API refactory Update");
     }
