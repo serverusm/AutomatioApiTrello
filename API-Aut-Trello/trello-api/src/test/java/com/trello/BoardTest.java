@@ -54,7 +54,7 @@ public class BoardTest {
     }
 
     @Test(priority = 1)
-    public void testCreateBoardReqSpec() {
+    public void testCreateBoardSchemaValidation() {
         //Arrange
         InputStream createBoardJsonSchema = getClass().getClassLoader()
                 .getResourceAsStream("schemas/createBoardSchema.json");
@@ -87,7 +87,7 @@ public class BoardTest {
         Assert.assertEquals(name, boarName);
     }
 
-    @Test(priority = 3)
+    @Test(priority = 2)
     public void UpdateBoard() {
         //AAA
         //Arrange
@@ -108,8 +108,10 @@ public class BoardTest {
         Assert.assertEquals(response.statusCode(), 200);
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void getBoardTest() {
+        InputStream getBoardJsonSchema = getClass().getClassLoader()
+                .getResourceAsStream("schemas/getBoardSchema.json");
 
         var response = RestAssured.given()
                 .spec(requestSpec)
@@ -117,12 +119,16 @@ public class BoardTest {
                 .headers(headers)
                 .queryParams(queryParams)
                 .get(String.format("/boards/%s", boardID)).then()
-                .spec(responseSpec).extract().response();
+                .spec(responseSpec)
+                .and()
+                .assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(getBoardJsonSchema))
+                .extract().response();
+        System.out.println(response.getBody().asPrettyString());
 
-//        String name = response.path("name");
         String name = JsonPath.getResult(response.getBody().asPrettyString(), "$.name");
 
-        Assert.assertEquals(name, "API Refacty with ID");
+        Assert.assertEquals(name, "API refactory Update");
     }
 
     @Test(priority = 4)
