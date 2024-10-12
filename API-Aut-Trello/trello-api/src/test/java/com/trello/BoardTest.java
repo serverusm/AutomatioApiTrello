@@ -91,6 +91,9 @@ public class BoardTest {
     public void UpdateBoard() {
         //AAA
         //Arrange
+        InputStream updateBoardJsonSchema = getClass().getClassLoader()
+                .getResourceAsStream("schemas/updateBoardSchema.json");
+
         String boarName = "API refactory Update";
 
         queryParams.put("name", boarName);
@@ -101,7 +104,13 @@ public class BoardTest {
                 .log().all().when()
                 .headers(headers)
                 .queryParams(queryParams)
-                .put(String.format("/boards/%s", boardID));
+                .put(String.format("/boards/%s", boardID))
+                .then()
+                .spec(responseSpec)
+                .and()
+                .assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(updateBoardJsonSchema))
+                .extract().response();
 
         System.out.println(response.getBody().asPrettyString());
         //Assert
@@ -133,14 +142,20 @@ public class BoardTest {
 
     @Test(priority = 4)
     public void deleteBoardTest() {
+        InputStream deleteBoardJsonSchema = getClass().getClassLoader()
+                .getResourceAsStream("schemas/deleteBoardSchema.json");
 
         var response = RestAssured.given()
                 .spec(requestSpec)
                 .log().all().when()
                 .headers(headers)
                 .queryParams(queryParams)
-                .delete(String.format("/boards/%s", boardID)).then()
-                .spec(responseSpec).extract().response();
+                .delete(String.format("/boards/%s", boardID))
+                .then()
+                .spec(responseSpec).and()
+                .assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(deleteBoardJsonSchema))
+                .extract().response();
 
         System.out.println("Board Delete");
         System.out.println(response.getBody().asPrettyString());
