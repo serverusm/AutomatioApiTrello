@@ -43,3 +43,5 @@ bin/
 .idea
 /report/
 /reports/
+/trello-api/report/
+/trello-api/reports/
