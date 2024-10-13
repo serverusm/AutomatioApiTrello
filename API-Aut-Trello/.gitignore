@@ -45,3 +45,6 @@ bin/
 /reports/
 /trello-api/report/
 /trello-api/reports/
+/trello-api/allure-results/
+/allure-results/
+/logs/
