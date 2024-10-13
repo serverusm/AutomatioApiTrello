@@ -20,6 +20,8 @@ allprojects {
         implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.19.0'
         // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
         implementation group: 'io.cucumber', name: 'cucumber-testng', version: '7.19.0'
+        // https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
+        implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '7.19.0'
 
     }
 }

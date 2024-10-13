@@ -25,7 +25,7 @@ tasks.register("executeApiFeature", Test) {
         jvmArgs = ["-Dcucumber.features=${rootProject.rootDir}/trello-api/src/test/resources/features/"]
         //trello-api\src\test\resources\features
         jvmArgs = ["-Dcucumber.plugin=pretty,"]
-//        jvmArgs = ["-Dcucumber.filter.tags=" + System.getProperty("cucumberTags")]
+        jvmArgs = ["-Dcucumber.filter.tags=" + tags]
         jvmArgs = ["-Denv=" + env]
         testLogging.showStandardStreams = true
     }
