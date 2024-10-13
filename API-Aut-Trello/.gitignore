@@ -48,3 +48,6 @@ bin/
 /trello-api/allure-results/
 /allure-results/
 /logs/
+/trello-api/logs/
+/trello-api/allure-report/
+trello-core.log
