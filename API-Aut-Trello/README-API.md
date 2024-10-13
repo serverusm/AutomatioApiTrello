@@ -1,9 +1,10 @@
 ```shell
 gradle clean apiFeatures
-
+````
 Command to run api features with tag
 
-```gradle clean apiFeatures -Ptags="@Board"
+```shell
+gradle clean apiFeatures -Ptags="@Board"
 ```
 Allure report commands
 Place yourself on path that allure-results exists.
