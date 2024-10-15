@@ -36,7 +36,7 @@ public class ApiHooks {
     }
     @Before()
     public void beforeAllHook(){
-        System.out.println("This is the before all hook.");
+//        System.out.println("This is the before all hook.");
     }
 
     @After("@deleteBoard")
