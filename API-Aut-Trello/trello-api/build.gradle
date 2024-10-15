@@ -16,7 +16,7 @@ test {
 }
 // Option 1 After
 tasks.register("executeApiFeature", Test) {
-    systemProperties(System.getProperties())
+//    systemProperties(System.getProperties())
     outputs.upToDateWhen { false }
     useTestNG()
     scanForTestClasses = false

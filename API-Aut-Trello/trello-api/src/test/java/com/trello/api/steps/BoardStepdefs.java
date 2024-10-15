@@ -28,8 +28,8 @@ public class BoardStepdefs {
         this.context = context;
     }
 
-    @Given("I set apiRequestHandler with proper credential")
-    public void iSetApiRequestHandlerWothProperCredential() {
+    @Given("I set apiRequestHandler with proper credential") //Background
+    public void iSetApiRequestHandlerWithProperCredential() {
         headers = new HashMap<String, String>();
         headers.put("Content-Type", "application/son");
 
@@ -45,31 +45,28 @@ public class BoardStepdefs {
         request.setQueryParam("name", boardName);
         request.setEndpoint("/boards/");
         //Act
+
         response = RequestManager.post(request);
-        context.setProperty("createBoardResponse", response.getBody().asPrettyString());
-        context.setResponse(response);
-        boardID = response.getBody().path("id");
-        System.out.println(String.format("boardID: %s", boardID));
-        context.setProperty("boardId", boardID);
+    }
+    @Then("I should see field {string} with value {string}")
+    public void iShouldSeeFieldWithValue(String field, String value) {
+        String actualResult = JsonPath.getResult(response.getBody().asPrettyString(), String.format("$.%s", field));
+        System.out.println(String.format("New board name: %s", actualResult));
+        Assert.assertEquals(actualResult, value,String.format("board name does not match with expected value: %s", value));
+    }
+
+    @And("I validate createBoard response schema")
+    public void  iValidateCreateBoardResponseSchema() {
+        InputStream createBoardJsonSchema = getClass().getClassLoader()
+                .getResourceAsStream("schemas/createBoardSchema.json");
+        //Arrange
+        response
+                .then()
+                .and()
+                .assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(createBoardJsonSchema))
+                .extract().response();
 
     }
 
-//    @Then("I should see field {string} with value {string}")
-//    public void iShouldSeeFieldWithValue(String field, String value) {
-//        String actualResult = JsonPath.getResult(response.getBody().asPrettyString(), String.format("$.%s", field));
-//        System.out.println(String.format("New board name: %s", actualResult));
-//        Assert.assertEquals(actualResult, value,String.format("board name does not match with expected value: %s", value));
-//    }
-//    @And("I validate createBoard response schema")
-//    public void iValidateCreateBoardResponseSchema() {
-//        //Arrange
-//        InputStream createBoardJsonSchema = getClass().getClassLoader()
-//                .getResourceAsStream("schemas/createBoardSchema.json");
-//        response
-//                .then()
-//                .and()
-//                .assertThat()
-//                .body(JsonSchemaValidator.matchesJsonSchema(createBoardJsonSchema))
-//                .extract().response();
-//    }
 }
