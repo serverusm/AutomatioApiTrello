@@ -19,7 +19,8 @@ public class ApiHooks {
     private ApiRequestHandler request;
     private ResponseSpecification responseSpec;
     private Context context;
-    public ApiHooks(Context context){
+
+    public ApiHooks(Context context) {
         this.context = context;
         responseSpec = new ResponseSpecBuilder().expectStatusCode(200)
                 .expectContentType(ContentType.JSON)
@@ -34,13 +35,14 @@ public class ApiHooks {
         request.setHeaders(headers);
         request.setQueryParam(queryParams);
     }
+
     @Before()
-    public void beforeAllHook(){
+    public void beforeAllHook() {
 //        System.out.println("This is the before all hook.");
     }
 
     @After("@deleteBoard")
-    public void deleteBoardHook(){
+    public void deleteBoardHook() {
         String boardId = context.getProperty("boardId");
         System.out.println(String.format("BoardId %s from hook", boardId));
         request.setEndpoint(String.format("/boards/%s", boardId));

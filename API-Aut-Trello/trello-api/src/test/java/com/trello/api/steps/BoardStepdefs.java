@@ -47,6 +47,10 @@ public class BoardStepdefs {
         //Act
 
         response = RequestManager.post(request);
+
+        boardID = response.getBody().path("id");
+        System.out.println(String.format("boardID: %s", boardID));
+        context.setProperty("boardId", boardID);
     }
     @Then("I should see field {string} with value {string}")
     public void iShouldSeeFieldWithValue(String field, String value) {
