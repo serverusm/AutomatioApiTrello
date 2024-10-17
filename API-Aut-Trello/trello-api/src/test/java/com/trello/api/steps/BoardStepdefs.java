@@ -24,7 +24,8 @@ public class BoardStepdefs {
     private Response response;
     private String boardID;
     private Context context;
-    public BoardStepdefs(Context context){
+
+    public BoardStepdefs(Context context) {
         this.context = context;
     }
 
@@ -40,6 +41,7 @@ public class BoardStepdefs {
         request.setHeaders(headers);
         request.setQueryParam(queryParams);
     }
+
     @When("I create a board with name {string}")
     public void iCreateABoardWithName(String boardName) {
         request.setQueryParam("name", boardName);
@@ -53,25 +55,31 @@ public class BoardStepdefs {
         System.out.println(String.format("boardID: %s", boardID));
         context.setProperty("boardId", boardID);
     }
-//    @Then("I should see field {string} with value {string}")
-//    public void iShouldSeeFieldWithValue(String field, String value) {
-//        String actualResult = JsonPath.getResult(response.getBody().asPrettyString(), String.format("$.%s", field));
-//        System.out.println(String.format("New board name: %s", actualResult));
-//        Assert.assertEquals(actualResult, value,String.format("board name does not match with expected value: %s", value));
-//    }
-//
-//    @And("I validate createBoard response schema")
-//    public void  iValidateCreateBoardResponseSchema() {
-//        InputStream createBoardJsonSchema = getClass().getClassLoader()
-//                .getResourceAsStream("schemas/createBoardSchema.json");
-//        //Arrange
-//        response
-//                .then()
-//                .and()
-//                .assertThat()
-//                .body(JsonSchemaValidator.matchesJsonSchema(createBoardJsonSchema))
-//                .extract().response();
-//
-//    }
+
+    @When("I get a board with {string}")
+    public void iGetABoardWith(String boardID) { //Method Get
+        request.getQueryParams().remove("name");
+        this.boardID = boardID.contains("boardId") ? context.getProperty("boardId") : boardID;
+        request.setEndpoint("/boards/".concat(this.boardID));
+        response = RequestManager.get(request);
+        context.setResponse(response);
+    }
+
+    @When("I update board name with {string}")
+    public void iUpdateBoardNameWith(String newBoardName) {
+        request.setQueryParam("name", newBoardName);
+        request.setEndpoint(String.format("/boards/%s", context.getProperty("boardId")));
+
+        var response = RequestManager.put(request);
+        context.setResponse(response);
+    }
+
+    @When("I delete a board with {string}")
+    public void iDileteABoardWith(String boardId) {
+        this.boardID = boardId.contains("boardId") ? context.getProperty("boardId") : boardId;
+        request.setEndpoint(String.format("/boards/%s", this.boardID));
+        var response = RequestManager.delete(request);
+        context.setResponse(response);
+    }
 
 }

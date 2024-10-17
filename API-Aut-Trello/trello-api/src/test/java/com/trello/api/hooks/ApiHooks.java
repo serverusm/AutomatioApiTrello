@@ -8,6 +8,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.ResponseSpecification;
 
 import java.util.HashMap;
@@ -38,7 +39,22 @@ public class ApiHooks {
 
     @Before()
     public void beforeAllHook() {
-//        System.out.println("This is the before all hook.");
+        System.out.println("This is the before all hook.");
+    }
+
+    @Before("@createBoard")
+    public void createBoardHook() {
+        var boardName = "API board from hook";
+        request.setQueryParam("name", boardName);
+        request.setEndpoint("/boards/");
+
+        //Act
+        Response response = RequestManager.post(request);
+        context.setProperty("createBoardResponse", response.getBody().asPrettyString());
+        context.setResponse(response);
+        String boardID = response.getBody().path("id");
+        context.setProperty("boardId", boardID);
+        System.out.println(String.format("boardID: %s", boardID));
     }
 
     @After("@deleteBoard")
