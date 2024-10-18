@@ -1,7 +1,9 @@
 Feature: calcauladora
-Background:
-  Given I set a mes sage
 
+  Background:
+    Given I set a mes sage
+
+  @Calculadora
   Scenario Outline: Suma
     Given I have "number1" with value <number1Value>
     And I have "number2" with value <number2Value>
